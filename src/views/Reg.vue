@@ -1,0 +1,80 @@
+<template>
+    <div>
+        <cube-form
+            :model="model"
+            :schema="schema"
+            @submit="submitHandler">
+        </cube-form>
+    </div>
+</template>
+<script>
+export default {
+    data(){
+        return{
+            model:{
+                username:'',
+                password:'',
+            },
+            schema:{
+                fields:[
+                    {
+                        type:'input',
+                        modelKey:'username',
+                        label:"用户名",
+                        props:{
+                            placeholder:'请输入用户名',
+                        },
+                        rules:{
+                            require:'true',
+                            type:"string",
+                            min:3,
+                            max:12,
+                        },
+                        message:{
+                            required:'用户名不能为空',
+                        }
+                    },
+                    {
+                        type:'input',
+                        modelKey:'password',
+                        label:'密码',
+                        props:{
+                            placeholder:'请输入密码',
+                            type:'password',
+                            eye:{
+                                open:false,
+                            }
+                        },
+                        rules:{
+                            require:'true',
+                        },
+                        message:{
+                            required:"用户名不能为空"
+                        }
+                    },
+                    {
+                        type:'submit',
+                        label:'注册'
+                    }
+                    
+                ]
+            }
+        }
+    },
+    methods: {
+        submitHandler(){
+            event.preventDefault()
+            this.$http.get('/api/reg',{params:this.model})
+            .then(res=>{
+                console.log(res.data)
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+        }
+    },
+}
+</script>
+<style lang="scss" scoped>
+    
+</style>
